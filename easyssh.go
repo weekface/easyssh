@@ -71,13 +71,13 @@ func (ssh_conf *MakeConfig) Run(cmd string) (string, error) {
 	defer session.Close()
 
 	var b bytes.Buffer
-	session.Stdout = &b
-	err = session.Run(cmd)
-	if err != nil {
-		return "", err
-	}
 
-	return b.String(), nil
+	session.Stdout = &b
+	session.Stderr = &b
+
+	err = session.Run(cmd)
+
+	return b.String(), err
 }
 
 func (ssh_conf *MakeConfig) Scp(sourceFile string) error {
